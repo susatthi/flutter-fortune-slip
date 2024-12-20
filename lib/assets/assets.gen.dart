@@ -15,8 +15,50 @@ class $AssetsImagesGen {
   /// File path: assets/images/bg.png
   AssetGenImage get bg => const AssetGenImage('assets/images/bg.png');
 
+  /// File path: assets/images/omikuji_chuukichi.png
+  AssetGenImage get omikujiChuukichi =>
+      const AssetGenImage('assets/images/omikuji_chuukichi.png');
+
+  /// File path: assets/images/omikuji_daikichi.png
+  AssetGenImage get omikujiDaikichi =>
+      const AssetGenImage('assets/images/omikuji_daikichi.png');
+
+  /// File path: assets/images/omikuji_daikyou.png
+  AssetGenImage get omikujiDaikyou =>
+      const AssetGenImage('assets/images/omikuji_daikyou.png');
+
+  /// File path: assets/images/omikuji_kichi.png
+  AssetGenImage get omikujiKichi =>
+      const AssetGenImage('assets/images/omikuji_kichi.png');
+
+  /// File path: assets/images/omikuji_kyou.png
+  AssetGenImage get omikujiKyou =>
+      const AssetGenImage('assets/images/omikuji_kyou.png');
+
+  /// File path: assets/images/omikuji_suekichi.png
+  AssetGenImage get omikujiSuekichi =>
+      const AssetGenImage('assets/images/omikuji_suekichi.png');
+
+  /// File path: assets/images/omikuji_syoukichi.png
+  AssetGenImage get omikujiSyoukichi =>
+      const AssetGenImage('assets/images/omikuji_syoukichi.png');
+
+  /// File path: assets/images/syougatsu2_omijikuji2.png
+  AssetGenImage get syougatsu2Omijikuji2 =>
+      const AssetGenImage('assets/images/syougatsu2_omijikuji2.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [bg];
+  List<AssetGenImage> get values => [
+        bg,
+        omikujiChuukichi,
+        omikujiDaikichi,
+        omikujiDaikyou,
+        omikujiKichi,
+        omikujiKyou,
+        omikujiSuekichi,
+        omikujiSyoukichi,
+        syougatsu2Omijikuji2
+      ];
 }
 
 class Assets {

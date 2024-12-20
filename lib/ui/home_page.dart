@@ -3,17 +3,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
 import '../assets/assets.gen.dart';
-import '../state/counter.dart';
-import '../use_case/increment.dart';
+import '../state/omikuji.dart';
+import '../use_case/draw_omikuji.dart';
 import 'component/riverpod.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      omikujiNotifierProvider,
+      (_, omikuji) async {
+        final result = omikuji.result;
+        if (result == null) {
+          return;
+        }
+
+        await showDialog<void>(
+          context: context,
+          builder: (context) => _OmikujiResultDialog(result: result),
+        );
+      },
+    );
+
     return const Scaffold(
-      backgroundColor: Color(0xFF707F86),
       body: _Body(),
     );
   }
@@ -24,48 +38,14 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Assets.images.bg.image(fit: BoxFit.cover),
-          const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _CountText(),
-                Gap(16),
-                _InteractiveButton(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _InteractiveButton extends ConsumerWidget {
-  const _InteractiveButton();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listenAsync(incrementUseCaseProvider);
-    final isLoading = ref.watch(incrementUseCaseProvider).isLoading;
-    return SizedBox(
-      width: 200,
-      child: FilledButton(
-        onPressed: isLoading
-            ? null
-            : () => ref.read(incrementUseCaseProvider.notifier).invoke(),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SingleChildScrollView(
+        child: Column(
           children: [
-            if (isLoading) ...[
-              const _LoadingIndicator(),
-              const Gap(8),
-            ],
-            const Text('Increment'),
+            Assets.images.bg.image(fit: BoxFit.cover),
+            const _DrawOmikujiButton(),
+            const Gap(32),
           ],
         ),
       ),
@@ -73,30 +53,51 @@ class _InteractiveButton extends ConsumerWidget {
   }
 }
 
-class _LoadingIndicator extends StatelessWidget {
-  const _LoadingIndicator();
+class _DrawOmikujiButton extends ConsumerWidget {
+  const _DrawOmikujiButton();
+
+  static const _size = 200.0;
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox.square(
-      dimension: 16,
-      child: CircularProgressIndicator(
-        strokeWidth: 2.5,
-        color: Theme.of(context).colorScheme.outline,
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listenAsync(drawOmikujiUseCaseProvider);
+    final isLoading = ref.watch(drawOmikujiUseCaseProvider).isLoading;
+    return GestureDetector(
+      onTap: isLoading
+          ? null
+          : () => ref.read(drawOmikujiUseCaseProvider.notifier).invoke(),
+      child: Assets.images.syougatsu2Omijikuji2.image(
+        width: _size,
+        height: _size,
       ),
     );
   }
 }
 
-class _CountText extends ConsumerWidget {
-  const _CountText();
+class _OmikujiResultDialog extends StatelessWidget {
+  const _OmikujiResultDialog({
+    required this.result,
+  });
+
+  final OmikujiResult result;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterNotifierProvider);
-    return Text(
-      counter.value.toString(),
-      style: Theme.of(context).textTheme.titleLarge,
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      child: result.assetImage.image(),
     );
   }
+}
+
+extension on OmikujiResult {
+  AssetGenImage get assetImage => switch (this) {
+        OmikujiResult.daikichi => Assets.images.omikujiDaikichi,
+        OmikujiResult.kichi => Assets.images.omikujiKichi,
+        OmikujiResult.chuukichi => Assets.images.omikujiChuukichi,
+        OmikujiResult.syoukichi => Assets.images.omikujiSyoukichi,
+        OmikujiResult.suekichi => Assets.images.omikujiSuekichi,
+        OmikujiResult.kyou => Assets.images.omikujiKyou,
+        OmikujiResult.daikyou => Assets.images.omikujiDaikyou,
+      };
 }
