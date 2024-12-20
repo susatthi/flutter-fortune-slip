@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_riverpod_interactive_button/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'app.dart';
 
 void main() {
-  runApp(const App());
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }

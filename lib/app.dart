@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample_riverpod_interactive_button/home_page.dart';
+
+import 'home_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
