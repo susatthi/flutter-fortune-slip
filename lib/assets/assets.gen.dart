@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/images/icon.png');
+
   /// File path: assets/images/omikuji_chuukichi.png
   AssetGenImage get omikujiChuukichi =>
       const AssetGenImage('assets/images/omikuji_chuukichi.png');
@@ -46,6 +49,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        icon,
         omikujiChuukichi,
         omikujiDaikichi,
         omikujiDaikyou,

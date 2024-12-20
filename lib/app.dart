@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ui/home_page.dart';
+import 'feature/omikuji/ui/home_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
