@@ -6,7 +6,7 @@ part of 'omikuji.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$omikujiNotifierHash() => r'de2ae131414a4cd2ff815ca98e8cdd0ec14f4f96';
+String _$omikujiNotifierHash() => r'061b1a07aaa214d40228444dffa0cd0388966f97';
 
 /// See also [OmikujiNotifier].
 @ProviderFor(OmikujiNotifier)

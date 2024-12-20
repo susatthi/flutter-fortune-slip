@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
 import '../../../assets/assets.gen.dart';
-import '../../../core/ui/component/dialog.dart';
 import '../state/omikuji.dart';
 import '../use_case/draw_omikuji.dart';
 
@@ -161,21 +160,13 @@ class _DrawOmikujiButtonState extends ConsumerState<_DrawOmikujiButton>
         data: (data) => _stopShake(),
         error: (err, _) async {
           _stopShake();
-          await showDialog<void>(
-            context: context,
-            builder: (context) => ErrorDialog(error: err),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(err.toString())),
           );
         },
         // ローディング中は揺らす
         loading: _startShake,
       ),
-      onError: (err, _) async {
-        _stopShake();
-        await showDialog<void>(
-          context: context,
-          builder: (context) => ErrorDialog(error: err),
-        );
-      },
     );
 
     final isLoading = ref.watch(drawOmikujiUseCaseProvider).isLoading;
