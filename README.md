@@ -1,8 +1,8 @@
-# flutter_fortune_slip
+# flutter_omikuji
 
 おみくじアプリ
 
-https://susatthi.github.io/flutter-fortune-slip/
+https://susatthi.github.io/flutter-omikuji/
 
 ## License
 

@@ -1,5 +1,5 @@
-name: flutter_fortune_slip
-description: "おみくじアプリ"
+name: flutter_omikuji
+description: "おみくじ"
 publish_to: 'none'
 version: 1.0.0+1
 
