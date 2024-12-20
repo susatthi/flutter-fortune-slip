@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/use_case/use_case.dart';
 import '../state/omikuji.dart';
-import 'use_case.dart';
 
 part 'draw_omikuji.g.dart';
 

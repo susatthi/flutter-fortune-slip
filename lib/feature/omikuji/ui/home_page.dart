@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../assets/assets.gen.dart';
+import '../../../assets/assets.gen.dart';
+import '../../../core/ui/component/dialog.dart';
 import '../state/omikuji.dart';
 import '../use_case/draw_omikuji.dart';
-import 'component/riverpod.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
