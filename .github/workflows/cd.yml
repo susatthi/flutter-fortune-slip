@@ -30,7 +30,7 @@ jobs:
           flutter config --enable-web
           flutter build web \
             --release \
-            --web-renderer canvaskit \
+            --web-renderer html \
             --build-number ${{ github.run_number }} \
             --base-href /${{ steps.version.outputs.repository }}/
       - name: Deploy to GitHub Pages
