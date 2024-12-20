@@ -51,7 +51,6 @@ class _InteractiveButton extends ConsumerWidget {
         onPressed: isLoading
             ? null
             : () => ref.read(incrementUseCaseProvider.notifier).invoke(),
-        // child: isLoading ? const _LoadingIndicator() : const Text('Increment'),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
