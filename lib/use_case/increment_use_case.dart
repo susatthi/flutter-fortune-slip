@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'counter.dart';
+import '../state/counter.dart';
 
 part 'increment_use_case.g.dart';
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
-import 'counter.dart';
-import 'increment_use_case.dart';
-import 'riverpod.dart';
+import '../state/counter.dart';
+import '../use_case/increment_use_case.dart';
+import 'component/riverpod.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
