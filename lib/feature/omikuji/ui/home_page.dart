@@ -10,15 +10,10 @@ import '../../../core/ui/component/dialog.dart';
 import '../state/omikuji.dart';
 import '../use_case/draw_omikuji.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
-  @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  void _launchConfetti() {
+  void _launchConfetti(BuildContext context) {
     double randomInRange(double min, double max) {
       return min + math.Random().nextDouble() * (max - min);
     }
@@ -26,7 +21,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     const total = 30;
     var progress = 0;
 
-    Timer.periodic(const Duration(milliseconds: 250), (timer) {
+    Timer.periodic(const Duration(milliseconds: 300), (timer) {
       progress++;
 
       if (progress >= total) {
@@ -62,20 +57,23 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
       omikujiNotifierProvider,
       (_, omikuji) async {
         final result = omikuji.result;
+
+        // おみくじが引かれていない場合は何もしない
         if (result == null) {
           return;
         }
 
         // 大吉の場合はコンフェティを表示
-        if (result == OmikujiResult.daikichi) {
-          _launchConfetti();
+        if (result != OmikujiResult.daikichi) {
+          _launchConfetti(context);
         }
 
+        // おみくじの結果を表示
         await showDialog<void>(
           context: context,
           builder: (context) => _OmikujiResultDialog(result: result),
@@ -103,7 +101,7 @@ class _Body extends StatelessWidget {
 class _DrawOmikujiButton extends ConsumerStatefulWidget {
   const _DrawOmikujiButton();
 
-  static const _size = 200.0;
+  static const _size = 300.0;
 
   @override
   ConsumerState<_DrawOmikujiButton> createState() => _DrawOmikujiButtonState();
@@ -205,7 +203,12 @@ class _OmikujiResultDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).pop(),
-      child: result.assetImage.image(),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: result.assetImage.image(
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 }
