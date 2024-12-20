@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 
 import '../../../assets/assets.gen.dart';
 import '../../../core/ui/component/dialog.dart';
@@ -69,7 +70,7 @@ class HomePage extends ConsumerWidget {
         }
 
         // 大吉の場合はコンフェティを表示
-        if (result != OmikujiResult.daikichi) {
+        if (result == OmikujiResult.daikichi) {
           _launchConfetti(context);
         }
 
@@ -93,7 +94,14 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: _DrawOmikujiButton(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _DrawOmikujiButton(),
+          Gap(16),
+          _ExplanationText(),
+        ],
+      ),
     );
   }
 }
@@ -188,6 +196,20 @@ class _DrawOmikujiButtonState extends ConsumerState<_DrawOmikujiButton>
           height: _DrawOmikujiButton._size,
         ),
       ),
+    );
+  }
+}
+
+class _ExplanationText extends ConsumerWidget {
+  const _ExplanationText();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = ref.watch(drawOmikujiUseCaseProvider).isLoading;
+    return Text(
+      isLoading ? 'そのまま\nお待ちください' : 'タップすると\nおみくじが引けます',
+      style: Theme.of(context).textTheme.headlineLarge,
+      textAlign: TextAlign.center,
     );
   }
 }
