@@ -1,23 +1,79 @@
+import 'dart:async';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 
 import '../assets/assets.gen.dart';
 import '../state/omikuji.dart';
 import '../use_case/draw_omikuji.dart';
 import 'component/riverpod.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  void _launchConfetti() {
+    double randomInRange(double min, double max) {
+      return min + math.Random().nextDouble() * (max - min);
+    }
+
+    const total = 30;
+    var progress = 0;
+
+    Timer.periodic(const Duration(milliseconds: 250), (timer) {
+      progress++;
+
+      if (progress >= total) {
+        timer.cancel();
+        return;
+      }
+
+      final count = ((1 - progress / total) * 100).toInt();
+
+      Confetti.launch(
+        context,
+        options: ConfettiOptions(
+          particleCount: count,
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          x: randomInRange(0.1, 0.3),
+          y: math.Random().nextDouble() - 0.2,
+        ),
+      );
+      Confetti.launch(
+        context,
+        options: ConfettiOptions(
+          particleCount: count,
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          x: randomInRange(0.7, 0.9),
+          y: math.Random().nextDouble() - 0.2,
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen(
       omikujiNotifierProvider,
       (_, omikuji) async {
         final result = omikuji.result;
         if (result == null) {
           return;
+        }
+
+        // 大吉の場合はコンフェティを表示
+        if (result == OmikujiResult.daikichi) {
+          _launchConfetti();
         }
 
         await showDialog<void>(
@@ -38,18 +94,8 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Assets.images.title.image(fit: BoxFit.cover),
-            const Gap(32),
-            const _DrawOmikujiButton(),
-            const Gap(32),
-          ],
-        ),
-      ),
+    return const Center(
+      child: _DrawOmikujiButton(),
     );
   }
 }

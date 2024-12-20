@@ -44,9 +44,6 @@ class $AssetsImagesGen {
   AssetGenImage get syougatsu2Omijikuji2 =>
       const AssetGenImage('assets/images/syougatsu2_omijikuji2.png');
 
-  /// File path: assets/images/title.png
-  AssetGenImage get title => const AssetGenImage('assets/images/title.png');
-
   /// List of all assets
   List<AssetGenImage> get values => [
         omikujiChuukichi,
@@ -56,8 +53,7 @@ class $AssetsImagesGen {
         omikujiKyou,
         omikujiSuekichi,
         omikujiSyoukichi,
-        syougatsu2Omijikuji2,
-        title
+        syougatsu2Omijikuji2
       ];
 }
 
