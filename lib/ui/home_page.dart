@@ -43,7 +43,8 @@ class _Body extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Assets.images.bg.image(fit: BoxFit.cover),
+            Assets.images.title.image(fit: BoxFit.cover),
+            const Gap(32),
             const _DrawOmikujiButton(),
             const Gap(32),
           ],
@@ -53,22 +54,95 @@ class _Body extends StatelessWidget {
   }
 }
 
-class _DrawOmikujiButton extends ConsumerWidget {
+class _DrawOmikujiButton extends ConsumerStatefulWidget {
   const _DrawOmikujiButton();
 
   static const _size = 200.0;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listenAsync(drawOmikujiUseCaseProvider);
+  ConsumerState<_DrawOmikujiButton> createState() => _DrawOmikujiButtonState();
+}
+
+class _DrawOmikujiButtonState extends ConsumerState<_DrawOmikujiButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    // 小刻みに揺らすアニメーション
+    _animation = Tween<double>(begin: 0, end: 20).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
+    )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse(); // 戻る動きを追加
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _startShake() async {
+    await _controller.repeat(reverse: true);
+  }
+
+  void _stopShake() {
+    _controller.stop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(
+      drawOmikujiUseCaseProvider,
+      (_, next) => next.when(
+        // おみくじの結果が出たら止める
+        data: (data) => _stopShake(),
+        error: (err, _) async {
+          _stopShake();
+          await showDialog<void>(
+            context: context,
+            builder: (context) => ErrorDialog(error: err),
+          );
+        },
+        // ローディング中は揺らす
+        loading: _startShake,
+      ),
+      onError: (err, _) async {
+        _stopShake();
+        await showDialog<void>(
+          context: context,
+          builder: (context) => ErrorDialog(error: err),
+        );
+      },
+    );
+
     final isLoading = ref.watch(drawOmikujiUseCaseProvider).isLoading;
     return GestureDetector(
       onTap: isLoading
           ? null
           : () => ref.read(drawOmikujiUseCaseProvider.notifier).invoke(),
-      child: Assets.images.syougatsu2Omijikuji2.image(
-        width: _size,
-        height: _size,
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(0, _animation.value),
+            child: child,
+          );
+        },
+        child: Assets.images.syougatsu2Omijikuji2.image(
+          width: _DrawOmikujiButton._size,
+          height: _DrawOmikujiButton._size,
+        ),
       ),
     );
   }

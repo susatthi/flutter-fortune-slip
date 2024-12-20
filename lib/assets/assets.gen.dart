@@ -12,9 +12,6 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/bg.png
-  AssetGenImage get bg => const AssetGenImage('assets/images/bg.png');
-
   /// File path: assets/images/omikuji_chuukichi.png
   AssetGenImage get omikujiChuukichi =>
       const AssetGenImage('assets/images/omikuji_chuukichi.png');
@@ -47,9 +44,11 @@ class $AssetsImagesGen {
   AssetGenImage get syougatsu2Omijikuji2 =>
       const AssetGenImage('assets/images/syougatsu2_omijikuji2.png');
 
+  /// File path: assets/images/title.png
+  AssetGenImage get title => const AssetGenImage('assets/images/title.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
-        bg,
         omikujiChuukichi,
         omikujiDaikichi,
         omikujiDaikyou,
@@ -57,7 +56,8 @@ class $AssetsImagesGen {
         omikujiKyou,
         omikujiSuekichi,
         omikujiSyoukichi,
-        syougatsu2Omijikuji2
+        syougatsu2Omijikuji2,
+        title
       ];
 }
 

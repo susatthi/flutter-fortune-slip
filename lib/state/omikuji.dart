@@ -31,7 +31,12 @@ class OmikujiNotifier extends _$OmikujiNotifier {
 
   Future<void> draw() async {
     // 3秒間遅延
-    // await Future<void>.delayed(const Duration(seconds: 3));
+    await Future<void>.delayed(const Duration(seconds: 3));
+
+    // 1/10の確立でエラーになる
+    if (math.Random().nextInt(10) == 0) {
+      throw Exception('おみくじが出てきません！もう一度振ってください。');
+    }
 
     // ランダムでおみくじを引く
     state = Omikuji(
