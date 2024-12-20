@@ -1,5 +1,5 @@
-name: flutter_sample_riverpod_interactive_button
-description: "A new Flutter project."
+name: flutter_fortune_slip
+description: "おみくじアプリ"
 publish_to: 'none'
 version: 1.0.0+1
 

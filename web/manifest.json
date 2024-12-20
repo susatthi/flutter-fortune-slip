@@ -1,11 +1,11 @@
 {
-    "name": "flutter_sample_riverpod_interactive_button",
-    "short_name": "flutter_sample_riverpod_interactive_button",
+    "name": "flutter_fortune_slip",
+    "short_name": "flutter_fortune_slip",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "おみくじ",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
