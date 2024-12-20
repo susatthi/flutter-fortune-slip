@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
 import '../state/counter.dart';
-import '../use_case/increment_use_case.dart';
+import '../use_case/increment.dart';
 import 'component/riverpod.dart';
 
 class HomePage extends StatelessWidget {
