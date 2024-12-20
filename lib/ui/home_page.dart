@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
+import '../assets/assets.gen.dart';
 import '../state/counter.dart';
 import '../use_case/increment.dart';
 import 'component/riverpod.dart';
@@ -11,11 +12,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Interactive Button'),
-      ),
-      body: const _Body(),
+    return const Scaffold(
+      backgroundColor: Color(0xFF707F86),
+      body: _Body(),
     );
   }
 }
@@ -25,13 +24,21 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return SingleChildScrollView(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          _CountText(),
-          Gap(16),
-          _InteractiveButton(),
+          Assets.images.bg.image(fit: BoxFit.cover),
+          const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _CountText(),
+                Gap(16),
+                _InteractiveButton(),
+              ],
+            ),
+          ),
         ],
       ),
     );
