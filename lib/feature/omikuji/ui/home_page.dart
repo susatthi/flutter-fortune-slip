@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 
 import '../../../assets/assets.gen.dart';
 import '../state/omikuji.dart';
@@ -90,15 +89,20 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _DrawOmikujiButton(),
-          Gap(16),
-          _ExplanationText(),
-        ],
-      ),
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: _DrawOmikujiButton(),
+        ),
+        Align(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Text('※タップするとおみくじが引けます'),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -156,7 +160,7 @@ class _DrawOmikujiButtonState extends ConsumerState<_DrawOmikujiButton>
       (_, next) => next.when(
         // おみくじの結果が出たら止める
         data: (data) => _stopShake(),
-        error: (err, _) async {
+        error: (err, _) {
           _stopShake();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(err.toString())),
@@ -185,20 +189,6 @@ class _DrawOmikujiButtonState extends ConsumerState<_DrawOmikujiButton>
           height: _DrawOmikujiButton._size,
         ),
       ),
-    );
-  }
-}
-
-class _ExplanationText extends ConsumerWidget {
-  const _ExplanationText();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(drawOmikujiUseCaseProvider).isLoading;
-    return Text(
-      isLoading ? 'そのまま\nお待ちください' : 'タップすると\nおみくじが引けます',
-      style: Theme.of(context).textTheme.headlineLarge,
-      textAlign: TextAlign.center,
     );
   }
 }
