@@ -2,17 +2,19 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/use_case/use_case.dart';
 import '../state/omikuji.dart';
 
 part 'draw_omikuji.g.dart';
 
 @riverpod
-class DrawOmikujiUseCase extends _$DrawOmikujiUseCase with UseCase {
+class DrawOmikujiUseCase extends _$DrawOmikujiUseCase {
   @override
-  FutureOr<void> build() => buildInternal();
+  FutureOr<void> build() => null;
 
-  Future<void> invoke() => invokeInternal(() async {
-        await ref.read(omikujiNotifierProvider.notifier).draw();
-      });
+  Future<void> invoke() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(omikujiNotifierProvider.notifier).draw();
+    });
+  }
 }

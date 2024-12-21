@@ -7,7 +7,7 @@ part of 'draw_omikuji.dart';
 // **************************************************************************
 
 String _$drawOmikujiUseCaseHash() =>
-    r'4ebd16b92cc90f106fb442f19073cd25d2b46adf';
+    r'ff6f58ca1e11554d8670a6ffd0e2b74b808df38f';
 
 /// See also [DrawOmikujiUseCase].
 @ProviderFor(DrawOmikujiUseCase)
