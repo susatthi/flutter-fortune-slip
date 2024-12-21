@@ -61,22 +61,20 @@ class HomePage extends ConsumerWidget {
     ref.listen(
       omikujiNotifierProvider,
       (_, omikuji) async {
-        final result = omikuji.result;
-
         // おみくじが引かれていない場合は何もしない
-        if (result == null) {
+        if (omikuji == null) {
           return;
         }
 
         // 大吉の場合はコンフェティを表示
-        if (result == OmikujiResult.daikichi) {
+        if (omikuji == Omikuji.daikichi) {
           _launchConfetti(context);
         }
 
         // おみくじの結果を表示
         await showDialog<void>(
           context: context,
-          builder: (context) => _OmikujiResultDialog(result: result),
+          builder: (context) => _OmikujiResultDialog(omikuji: omikuji),
         );
       },
     );
@@ -207,10 +205,10 @@ class _ExplanationText extends ConsumerWidget {
 
 class _OmikujiResultDialog extends StatelessWidget {
   const _OmikujiResultDialog({
-    required this.result,
+    required this.omikuji,
   });
 
-  final OmikujiResult result;
+  final Omikuji omikuji;
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +216,7 @@ class _OmikujiResultDialog extends StatelessWidget {
       onTap: () => Navigator.of(context).pop(),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: result.assetImage.image(
+        child: omikuji.assetImage.image(
           fit: BoxFit.contain,
         ),
       ),
@@ -226,14 +224,14 @@ class _OmikujiResultDialog extends StatelessWidget {
   }
 }
 
-extension on OmikujiResult {
+extension on Omikuji {
   AssetGenImage get assetImage => switch (this) {
-        OmikujiResult.daikichi => Assets.images.omikujiDaikichi,
-        OmikujiResult.kichi => Assets.images.omikujiKichi,
-        OmikujiResult.chuukichi => Assets.images.omikujiChuukichi,
-        OmikujiResult.syoukichi => Assets.images.omikujiSyoukichi,
-        OmikujiResult.suekichi => Assets.images.omikujiSuekichi,
-        OmikujiResult.kyou => Assets.images.omikujiKyou,
-        OmikujiResult.daikyou => Assets.images.omikujiDaikyou,
+        Omikuji.daikichi => Assets.images.omikujiDaikichi,
+        Omikuji.kichi => Assets.images.omikujiKichi,
+        Omikuji.chuukichi => Assets.images.omikujiChuukichi,
+        Omikuji.syoukichi => Assets.images.omikujiSyoukichi,
+        Omikuji.suekichi => Assets.images.omikujiSuekichi,
+        Omikuji.kyou => Assets.images.omikujiKyou,
+        Omikuji.daikyou => Assets.images.omikujiDaikyou,
       };
 }

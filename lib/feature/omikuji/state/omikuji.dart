@@ -1,19 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'omikuji.freezed.dart';
 part 'omikuji.g.dart';
 
-@freezed
-class Omikuji with _$Omikuji {
-  const factory Omikuji({
-    OmikujiResult? result,
-  }) = _Omikuji;
-}
-
-enum OmikujiResult {
+enum Omikuji {
   daikichi,
   kichi,
   chuukichi,
@@ -27,7 +18,7 @@ enum OmikujiResult {
 @riverpod
 class OmikujiNotifier extends _$OmikujiNotifier {
   @override
-  Omikuji build() => const Omikuji();
+  Omikuji? build() => null;
 
   Future<void> draw() async {
     // 3秒間遅延
@@ -39,9 +30,6 @@ class OmikujiNotifier extends _$OmikujiNotifier {
     }
 
     // ランダムでおみくじを引く
-    state = Omikuji(
-      result: OmikujiResult
-          .values[math.Random().nextInt(OmikujiResult.values.length)],
-    );
+    state = Omikuji.values[math.Random().nextInt(Omikuji.values.length)];
   }
 }
